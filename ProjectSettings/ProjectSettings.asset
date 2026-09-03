@@ -1,0 +1,21 @@
+serializedVersion: 2
+m_Enabled: 1
+m_ScriptableObjectDefaultReferences: {}
+m_PlayerSettings: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_QualitySettings:
+- {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_TagManager: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_LightmapSettings: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_NavMeshSettings: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_InputManager: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_PhysicsManager: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_Physics2DSettings: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_DynamicsManager: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_ClusterInputManager: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_CloudWebServicesSettings: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_TimeManager: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_GameManager: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_NetworkManager: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_AudioManager: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_EffectsManager: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+m_ProjectVersion: 6000.0.83f1

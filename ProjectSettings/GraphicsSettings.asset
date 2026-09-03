@@ -1,0 +1,52 @@
+m_ObjectHideFlags: 0
+serializedVersion: 2
+defaultQualitySettings: {fileID: 11400000, guid: 0000000000000000f800000000000001, type: 2}
+activeColorSpace: 0
+renderPipelineSettings: {fileID: 11400000, guid: 9a33d9a0d7e1b0c4a8c8f8e8c8f8e8c8, type: 2}
+defaultRenderPipeline: {fileID: 11400000, guid: 9a33d9a0d7e1b0c4a8c8f8e8c8f8e8c8, type: 2}
+transparentSortMode: 0
+transparencySortAxis: {x: 0, y: 0, z: 1}
+graphicsJobsMode: 1
+lightsUseLinearIntensity: 1
+lightsUseColorTemperature: 1
+deferredResolutionScalingMode: 0
+deferredShadingSupport: 1
+xrManagement: {fileID: 0}
+rayTracingMode: 0
+tierSettings:
+- name: Low
+  renderingPath: 1
+  renderPipeline: {fileID: 0}
+  defaultParticleSystemMaxParticleSize: 1
+  defaultLineRendererMaxPoints: 1024
+  defaultTrailRendererMaxPoints: 1024
+  asyncReadbackBudget: 0.002
+  maxComputeBufferInputsVertex: 12
+  maxComputeBufferInputsFragment: 8
+- name: Medium
+  renderingPath: 1
+  renderPipeline: {fileID: 0}
+  defaultParticleSystemMaxParticleSize: 1
+  defaultLineRendererMaxPoints: 1024
+  defaultTrailRendererMaxPoints: 1024
+  asyncReadbackBudget: 0.002
+  maxComputeBufferInputsVertex: 12
+  maxComputeBufferInputsFragment: 8
+- name: High
+  renderingPath: 1
+  renderPipeline: {fileID: 0}
+  defaultParticleSystemMaxParticleSize: 1
+  defaultLineRendererMaxPoints: 1024
+  defaultTrailRendererMaxPoints: 1024
+  asyncReadbackBudget: 0.002
+  maxComputeBufferInputsVertex: 12
+  maxComputeBufferInputsFragment: 8
+- name: Ultra
+  renderingPath: 1
+  renderPipeline: {fileID: 0}
+  defaultParticleSystemMaxParticleSize: 1
+  defaultLineRendererMaxPoints: 1024
+  defaultTrailRendererMaxPoints: 1024
+  asyncReadbackBudget: 0.002
+  maxComputeBufferInputsVertex: 12
+  maxComputeBufferInputsFragment: 8

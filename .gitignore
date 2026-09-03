@@ -1,0 +1,46 @@
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emory[Cc]aptures/
+[Rr]eports/
+[Uu]ploads/
+
+# Visual Studio / VS Code
+.vs/
+*.csproj
+*.sln
+*.swp
+*.swo
+.vscode/
+*.user
+*.userprefs
+
+# Rider
+.idea/
+
+# macOS
+.DS_Store
+
+# Unity generated
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Build output
+Builds/
+
+# Local settings
+ProjectSettings/ProjectVersion.txt
+ProjectSettings/UnityConnectSettings.asset
+
+# MCP relay (local binary)
+.unity/relay/
+
+# OS generated
+Thumbs.db
+ehthumbs.db

@@ -31,7 +31,7 @@ jobs:
         echo "UNITY_VERSION=6000.0.83f1" >> $GITHUB_ENV
     
     - name: Install Unity
-      uses: game-ci/unity-installer@v4
+      uses: game-ci/unity-installer@v2
       with:
         unityVersion: ${{ env.UNITY_VERSION }}
         cacheKey: unity-${{ env.UNITY_VERSION }}
@@ -42,7 +42,7 @@ jobs:
         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
     
     - name: Build WebGL
-      uses: game-ci/unity-builder@v4
+      uses: game-ci/unity-builder@v2
       with:
         unityVersion: ${{ env.UNITY_VERSION }}
         targetPlatform: WebGL

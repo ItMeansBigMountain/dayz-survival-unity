@@ -1,0 +1,59 @@
+name: Unity Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Unity Build (WebGL)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        lfs: true
+    
+    - name: Cache Library
+      uses: actions/cache@v4
+      with:
+        path: Library
+        key: Library-${{ hashFiles('Packages/manifest.json') }}
+        restore-keys: |
+          Library-
+    
+    - name: Unity Version
+      run: |
+        echo "UNITY_VERSION=6000.0.83f1" >> $GITHUB_ENV
+    
+    - name: Install Unity
+      uses: game-ci/unity-installer@v4
+      with:
+        unityVersion: ${{ env.UNITY_VERSION }}
+        cacheKey: unity-${{ env.UNITY_VERSION }}
+    
+    - name: Activate Unity
+      uses: game-ci/unity-activate@v2
+      env:
+        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+    
+    - name: Build WebGL
+      uses: game-ci/unity-builder@v4
+      with:
+        unityVersion: ${{ env.UNITY_VERSION }}
+        targetPlatform: WebGL
+        buildMethod: BuildScript.PerformWebGLBuild
+        projectPath: .
+        allowDirtyBuild: true
+    
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: WebGL-Build
+        path: Builds/WebGL
+        retention-days: 7

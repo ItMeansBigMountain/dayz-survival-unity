@@ -1,0 +1,9 @@
+{
+  "Port": 8090,
+  "RequestTimeoutSeconds": 30,
+  "AutoStartServer": true,
+  "AllowBatchModeServer": false,
+  "AllowRemoteConnections": false,
+  "AllowPackageInstallation": false,
+  "EnableInfoLogs": true
+}

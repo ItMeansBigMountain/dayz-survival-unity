@@ -7,46 +7,95 @@ on:
     branches: [main]
 
 jobs:
+  validate:
+    name: ci/build
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate project and MCP configuration
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Get-Content Packages/manifest.json -Raw | ConvertFrom-Json | Out-Null
+          $settings = Get-Content ProjectSettings/McpUnitySettings.json -Raw | ConvertFrom-Json
+          if ($settings.AllowRemoteConnections -ne $false) {
+            throw 'MCP must remain loopback-only by default.'
+          }
+          if ($settings.AllowPackageInstallation -ne $false) {
+            throw 'MCP package installation must remain disabled.'
+          }
+          if ($settings.Port -ne 8090) {
+            throw 'MCP port must be 8090.'
+          }
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile(
+            (Resolve-Path 'scripts/Setup-LiveUnityMcp.ps1'),
+            [ref]$tokens,
+            [ref]$errors
+          ) | Out-Null
+          if ($errors.Count -gt 0) {
+            $errors | ForEach-Object { Write-Error $_ }
+            exit 1
+          }
+          Write-Host 'Project JSON, MCP security defaults, and PowerShell syntax are valid.'
+
   build:
     name: Unity Build (WebGL)
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        lfs: true
-    
-    - name: Cache Library
-      uses: actions/cache@v4
-      with:
-        path: Library
-        key: Library-${{ hashFiles('Packages/manifest.json') }}
-        restore-keys: |
-          Library-
-    
-    - name: Unity Version
-      run: |
-        echo "UNITY_VERSION=6000.0.83f1" >> $GITHUB_ENV
-    
-    - name: Build WebGL
-      uses: game-ci/unity-builder@v4
-      env:
-        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-        UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-        UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-      with:
-        unityVersion: ${{ env.UNITY_VERSION }}
-        targetPlatform: WebGL
-        buildMethod: BuildScript.PerformWebGLBuild
-        projectPath: .
-        allowDirtyBuild: true
-    
-    - name: Upload Build Artifact
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: WebGL-Build
-        path: Builds/WebGL
-        retention-days: 7
+      - name: Check Unity license availability
+        id: license
+        shell: bash
+        env:
+          HAS_LICENSE_FILE: ${{ secrets.UNITY_LICENSE != '' }}
+          HAS_SERIAL: ${{ secrets.UNITY_SERIAL != '' }}
+        run: |
+          if [[ "$HAS_LICENSE_FILE" == "true" || "$HAS_SERIAL" == "true" ]]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "Unity build skipped: configure UNITY_LICENSE or UNITY_SERIAL to enable licensed CI builds."
+          fi
+
+      - name: Checkout
+        if: steps.license.outputs.available == 'true'
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Cache Library
+        if: steps.license.outputs.available == 'true'
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Packages/manifest.json') }}
+          restore-keys: |
+            Library-
+
+      - name: Build WebGL
+        if: steps.license.outputs.available == 'true'
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          unityVersion: 6000.0.83f1
+          targetPlatform: WebGL
+          buildMethod: BuildScript.PerformWebGLBuild
+          projectPath: .
+          allowDirtyBuild: true
+
+      - name: Upload Build Artifact
+        if: steps.license.outputs.available == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: WebGL-Build
+          path: Builds/WebGL
+          retention-days: 7

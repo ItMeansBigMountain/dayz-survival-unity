@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.gamelovers.mcp-unity": "https://github.com/CoderGamester/mcp-unity.git?path=/Editor#382a43a",
     "com.unity.2d.animation": "10.0.0",
     "com.unity.2d.common": "8.0.0",
     "com.unity.2d.ik": "9.0.0",
